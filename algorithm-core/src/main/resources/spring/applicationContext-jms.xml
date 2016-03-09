@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:spa="http://code.google.com/p/spring-property-annotations"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+				http://code.google.com/p/spring-property-annotations
+				http://code.google.com/p/spring-property-annotations/spring-property-annotations-1.0.xsd
+				http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
+	default-autowire="byName">
+
+	<!-- connectionFactory -->
+	<bean id="jmsConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory"
+		destroy-method="stop">
+		<property name="connectionFactory">
+			<bean class="org.apache.activemq.ActiveMQConnectionFactory">
+				<property name="brokerURL" value="${notify.activemq.brokerurl}" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- template -->
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory">
+			<ref local="jmsConnectionFactory" />
+		</property>
+	</bean>
+	<!-- destination -->
+	<bean id="changeNotifyQueue" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg index="0"
+			value="${notify.activemq.queue.addNewNotifyQueue}" />
+	</bean>
+	<!-- listener -->
+	<bean id="changeNotifyListener"
+		class="com.lenovo.appstore.notify.jms.ChangeNotifyListener" />
+	<!-- container -->
+	<bean id="addNewNotifyContainer"
+		class="org.springframework.jms.listener.DefaultMessageListenerContainer"
+		lazy-init="false">
+		<property name="connectionFactory" ref="jmsConnectionFactory" />
+		<property name="destination" ref="changeNotifyQueue" />
+		<property name="messageListener" ref="changeNotifyListener" />
+	</bean>
+	
+	
+		<!-- destination -->
+	<bean id="msgCenterQueue" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg index="0"
+			value="${notify.activemq.queue.msgCenterQueue}" />
+	</bean>
+	<!-- listener -->
+	<bean id="msgCenterListener"
+		class="com.lenovo.appstore.notify.jms.MsgCenterListener" >
+		<property name="msgMappingOper" ref="msgMappingOper"/>
+	</bean>
+	<!-- container -->
+	<bean id="msgCenterContainer"
+		class="org.springframework.jms.listener.DefaultMessageListenerContainer"
+		lazy-init="false">
+		<property name="connectionFactory" ref="jmsConnectionFactory" />
+		<property name="destination" ref="msgCenterQueue" />
+		<property name="messageListener" ref="msgCenterListener" />
+	</bean>
+	
+</beans>

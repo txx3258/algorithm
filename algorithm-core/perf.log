@@ -1,0 +1,4 @@
+2016-03-09 17:27:53,131 WARN  PERFORMANCE - |Y|214|GET|/algorithm/
+Detail: 0 [214ms, 100%] - process http request
+2016-03-09 17:27:58,254 WARN  PERFORMANCE - |Y|312|GET|/algorithm/index
+Detail: 0 [312ms, 100%] - process http request
