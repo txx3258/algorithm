@@ -4,12 +4,14 @@
  */
 package com.wind.algorithm.web.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.wind.algorithm.util.ExceptionUtil;
 import com.wind.algorithm.util.JSONUtil;
+import com.wind.algorithm.util.Profiler;
 import com.wind.algorithm.util.ResultUtil;
 
 /**
@@ -28,7 +30,20 @@ public abstract class BaseController {
     public static final String  AMS_CONTENT_TYPE_HTML = "text/html;charset=utf-8";
 
     /**
-     * 
+     * 处理post请求
+     */
+    public <T> T parsePostRequest(HttpServletRequest request, Class<T> clz) {
+        Profiler.enter("parsePostRequest...");
+        try {
+
+            return null;
+        } finally {
+            Profiler.release();
+        }
+    }
+
+    /**
+     * 处理异常
      * 
      * @param response
      * @param e
