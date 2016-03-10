@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="msgCenter">
+	<typeAlias alias="Alias_NotifyMqInfo" type="com.lenovo.appstore.notify.model.NotifyPersonalMsg" />
+
+     <insert id="insertNotifyMqInfo" parameterClass="Alias_NotifyMqInfo">
+    <![CDATA[   
+    	insert into ams_msg_mq_info(id, user_id,lenovo_id,icon,title,msg_from,content,msg_type,orgin_id,parent_id,self_id,create_date,target_url)
+    	values(s_ams_msg_mq_info.nextval,#userId#,#lenovoId#,#icon#,#title#,#from#,#content#,#msgType#,#orginId#,#parentId#,#selfId#,sysdate,#targetUrl#)
+    	]]>		
+    </insert >
+     
+</sqlMap>

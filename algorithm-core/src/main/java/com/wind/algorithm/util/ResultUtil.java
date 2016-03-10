@@ -50,7 +50,7 @@ public final class ResultUtil {
     public static Map<String, Object> success(Object data) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SUCCESS, Boolean.TRUE);
-        result.put(DATA, data);
+        result.put(DATA, null);
         result.put(CODE, null);
         result.put(MSG, null);
 

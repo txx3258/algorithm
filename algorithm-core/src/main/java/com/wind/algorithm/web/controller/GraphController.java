@@ -9,9 +9,12 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.wind.algorithm.facade.GraphFacade;
 
 /**
  * <p>
@@ -22,14 +25,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class GraphController extends BaseController {
+    @Autowired
+    private GraphFacade graphFacade;
 
     @RequestMapping("/index")
     public void index(HttpServletRequest request, HttpServletResponse response) throws IOException {
         sendWithoutCache(response, "hello world!!!");
     }
 
-    @RequestMapping(value = "graph/buildgraph", method = RequestMethod.POST)
+    @RequestMapping(value = "/graph/shortestpath", method = RequestMethod.POST)
     public void buildgraph(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        sendWithoutCache(response, "hello world");
+        Object paths = graphFacade.fetchShortestPaths(request);
+
+        sendWithoutCache(response, paths);
     }
 }
